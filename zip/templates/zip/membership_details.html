@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+
+{% if user.is_authenticated %}
+
+{% block content %}
+{% for message in messages %}
+{# Show Error Message #}
+<div class="alert alert-success">
+    <a class="close" href="#" data-dismiss="alert">×</a>
+    {{ message }}
+</div>
+{% endfor %}
+<div class="jumbotron border border-secondary" style="dow: 10px 14px 18px 10px rgba(0,0,0,0.2); margin: 30px; background-color: rgba(255,255,255,0.9);">
+    <div>
+        <h2>{{ customer }}</h2>
+        <h4>Membership Available till : <b>{{ customer.last_membership_date }}</b></h4>
+    </div>
+    <div class="div-style">
+        <form method="POST"> {% csrf_token %}
+            {% bootstrap_form form %}
+        <input class="button btn-success" type="submit" value="Extend Membership" />
+        </form>
+    </div>
+</div>
+{% endblock content %}
+
+{% else %}
+<p>please log in for better experience</p>
+{% endif %}
+
